@@ -665,9 +665,9 @@ open class BaseP5Printer {
         public var strokeWeight: Double
 
         public init(
-            strokeColor: BaseP5Printer.Color?,
-            fillColor: BaseP5Printer.Color?,
-            strokeWeight: Double
+            strokeColor: BaseP5Printer.Color? = .black,
+            fillColor: BaseP5Printer.Color? = nil,
+            strokeWeight: Double = 1.0
         ) {
             self.strokeColor = strokeColor
             self.fillColor = fillColor
