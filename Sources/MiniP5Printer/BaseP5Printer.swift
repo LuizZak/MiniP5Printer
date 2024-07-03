@@ -660,9 +660,19 @@ open class BaseP5Printer {
             strokeWeight: 1.0
         )
 
-        public var strokeColor: Color? = .black
+        public var strokeColor: Color?
         public var fillColor: Color?
-        public var strokeWeight: Double = 1.0
+        public var strokeWeight: Double
+
+        public init(
+            strokeColor: BaseP5Printer.Color?,
+            fillColor: BaseP5Printer.Color?,
+            strokeWeight: Double
+        ) {
+            self.strokeColor = strokeColor
+            self.fillColor = fillColor
+            self.strokeWeight = strokeWeight
+        }
     }
 
     /// RGBA color with components between 0-255.
