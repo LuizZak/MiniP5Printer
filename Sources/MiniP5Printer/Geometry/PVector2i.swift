@@ -1,5 +1,5 @@
 public struct PVector2i: Hashable, Codable {
-    static let zero = Self(0)
+    public static let zero = Self(0)
     public static let unitX = Self(x: 1, y: 0)
     public static let unitY = Self(x: 0, y: 1)
 
