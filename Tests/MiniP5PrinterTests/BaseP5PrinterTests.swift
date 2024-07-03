@@ -64,14 +64,20 @@ final class MiniP5PrinterTests: XCTestCase {
         
         function drawGrid() {
           strokeWeight(1 / lineScale)
-          stroke(0, 0, 0, 20)
-          line(0, -20, 0, 20)
-          line(-20, 0, 20, 0)
-          for (var x = -20; x < 20; x++) {
-            line(x, -20, x, 20)
+          
+          let lengthX = width / 2 / renderScale
+          let lengthY = height / 2 / renderScale
+          let sep = (20) / renderScale
+          
+          stroke(0, 0, 0, 50)
+          
+          line(0, -lengthY, 0, lengthY)
+          line(-lengthX, 0, lengthX, 0)
+          for (let x = -lengthX; x < lengthX; x += sep) {
+            line(x, -lengthY, x, lengthY)
           }
-          for (var y = -20; y < 20; y++) {
-            line(-20, y, 20, y)
+          for (let y = -lengthY; y < lengthY; y += sep) {
+            line(-lengthX, y, lengthX, y)
           }
         }
         

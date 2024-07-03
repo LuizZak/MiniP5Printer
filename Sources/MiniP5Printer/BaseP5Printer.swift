@@ -397,121 +397,145 @@ open class BaseP5Printer {
     }
 
     open func printKeyPressed() {
-        indentedBlock("function keyPressed() {") {
-            indentedBlock("if (keyCode === 32) {") {
-                printLine("isSpaceBarPressed = !isSpaceBarPressed")
+        printMultiline("""
+        function keyPressed() {
+            if (keyCode === 32) {
+                isSpaceBarPressed = !isSpaceBarPressed
             }
         }
+        """)
     }
 
     open func printDrawMouseLocation2D() {
-        indentedBlock("function drawMouseLocation2D() {") {
-            printLine("resetMatrix()")
-            printLine("fill(0)")
-            printLine("noStroke()")
-            printLine("")
-            printLine("const mx = (mouseX - width / 2) / renderScale")
-            printLine("const my = (mouseY - height / 2) / renderScale")
-            printLine("")
-            printLine("text(`Mouse location: (${mx}, ${my})`, 10, 10 + textAscent())")
+        printMultiline("""
+        function drawMouseLocation2D() {
+            resetMatrix()
+            fill(0)
+            noStroke()
+
+            const mx = (mouseX - width / 2) / renderScale
+            const my = (mouseY - height / 2) / renderScale
+
+            text(`Mouse location: (${mx}, ${my})`, 10, 10 + textAscent())
         }
+        """)
     }
 
     open func printDrawGrid2D() {
-        indentedBlock("function drawGrid() {") {
-            printLine("strokeWeight(1 / lineScale)")
-            printLine("stroke(0, 0, 0, 20)")
-            printLine("line(0, -20, 0, 20)")
-            printLine("line(-20, 0, 20, 0)")
-            indentedBlock("for (var x = -20; x < 20; x++) {") {
-                printLine("line(x, -20, x, 20)")
+        printMultiline("""
+        function drawGrid() {
+            strokeWeight(1 / lineScale)
+
+            let lengthX = width / 2 / renderScale
+            let lengthY = height / 2 / renderScale
+            let sep = (20) / renderScale
+
+            stroke(0, 0, 0, 50)
+
+            line(0, -lengthY, 0, lengthY)
+            line(-lengthX, 0, lengthX, 0)
+            for (let x = -lengthX; x < lengthX; x += sep) {
+                line(x, -lengthY, x, lengthY)
             }
-            indentedBlock("for (var y = -20; y < 20; y++) {") {
-                printLine("line(-20, y, 20, y)")
+            for (let y = -lengthY; y < lengthY; y += sep) {
+                line(-lengthX, y, lengthX, y)
             }
         }
+        """)
     }
 
     open func printDrawOrigin2D() {
-        indentedBlock("function drawOrigin2D() {") {
-            let length: Double = 25.0
+        let length: Double = 25.0
 
-            printLine("strokeWeight(1 / lineScale)")
-            printLine("// X axis")
-            printLine("stroke(255, 0, 0)")
-            printLine("line(0.0, 0.0, \(length) / renderScale, 0.0)")
-            printLine("// Y axis")
-            printLine("stroke(0, 255, 0)")
-            printLine("line(0.0, 0.0, 0.0, \(length) / renderScale)")
+        printMultiline("""
+        function drawOrigin2D() {
+            strokeWeight(1 / lineScale)
+            // X axis
+            stroke(255, 0, 0)
+            line(0.0, 0.0, \(length) / renderScale, 0.0)
+            // Y axis
+            stroke(0, 255, 0)
+            line(0.0, 0.0, 0.0, \(length) / renderScale)
         }
+        """)
     }
 
     open func printDrawOrigin3D() {
-        indentedBlock("function drawOrigin3D() {") {
-            let length: Double = 100.0
+        let length: Double = 100.0
 
-            let vx = PVector3.unitX * length
-            let vy = PVector3.unitY * length
-            let vz = PVector3.unitZ * length
+        let vx = PVector3.unitX * length
+        let vy = PVector3.unitY * length
+        let vz = PVector3.unitZ * length
 
-            printLine("// X axis")
-            printLine("stroke(255, 0, 0, 50)")
-            printLine("line(\(vec3String(.zero)), \(vec3String(vx)))")
-            printLine("// Y axis")
-            printLine("stroke(0, 255, 0, 50)")
-            printLine("line(\(vec3String(.zero)), \(vec3String(vy)))")
-            printLine("// Z axis")
-            printLine("stroke(0, 0, 255, 50)")
-            printLine("line(\(vec3String(.zero)), \(vec3String(vz)))")
+        printMultiline("""
+        function drawOrigin3D() {
+            // X axis
+            stroke(255, 0, 0, 50)
+            line(\(vec3String(.zero)), \(vec3String(vx)))
+            // Y axis
+            stroke(0, 255, 0, 50)
+            line(\(vec3String(.zero)), \(vec3String(vy)))
+            // Z axis
+            stroke(0, 0, 255, 50)
+            line(\(vec3String(.zero)), \(vec3String(vz)))
         }
+        """)
     }
 
     open func printDrawNormal2D() {
-        indentedBlock("function drawNormal(x, y, nx, ny) {") {
-            printLine("const s = 15.0 / renderScale")
-            printLine("")
-            printLine("const x2 = x + nx * s")
-            printLine("const y2 = y + ny * s")
-            printLine("")
-            printLine("line(x, y, x2, y2)")
+        printMultiline("""
+        function drawNormal(x, y, nx, ny) {
+            const s = 15.0 / renderScale
+
+            const x2 = x + nx * s
+            const y2 = y + ny * s
+
+            line(x, y, x2, y2)
         }
+        """)
     }
 
     open func printDrawNormal3D() {
-        indentedBlock("function drawNormal(x, y, z, nx, ny, nz) {") {
-            printLine("const s = 10.0 / renderScale")
-            printLine("")
-            printLine("const x2 = x + nx * s")
-            printLine("const y2 = y + ny * s")
-            printLine("const z2 = z + nz * s")
-            printLine("")
-            printLine("strokeWeight(5 / lineScale)")
-            printLine("stroke(255, 0, 0, 200)")
-            printLine("line(x, y, z, x2, y2, z2)")
+        printMultiline("""
+        function drawNormal(x, y, z, nx, ny, nz) {
+            const s = 10.0 / renderScale
+
+            const x2 = x + nx * s
+            const y2 = y + ny * s
+            const z2 = z + nz * s
+
+            strokeWeight(5 / lineScale)
+            stroke(255, 0, 0, 200)
+            line(x, y, z, x2, y2, z2)
         }
+        """)
     }
 
     open func printDrawTangent2D() {
-        indentedBlock("function drawTangent(x, y, nx, ny) {") {
-            printLine("const s = 5.0 / renderScale")
-            printLine("")
-            printLine("const x1 = x - ny * s")
-            printLine("const y1 = y + nx * s")
-            printLine("")
-            printLine("const x2 = x + ny * s")
-            printLine("const y2 = y - nx * s")
-            printLine("")
-            printLine("line(x1, y1, x2, y2)")
+        printMultiline("""
+        function drawTangent(x, y, nx, ny) {
+            const s = 5.0 / renderScale
+
+            const x1 = x - ny * s
+            const y1 = y + nx * s
+
+            const x2 = x + ny * s
+            const y2 = y - nx * s
+
+            line(x1, y1, x2, y2)
         }
+        """)
     }
 
     open func printDrawSphere() {
-        indentedBlock("function drawSphere(x, y, z, radius) {") {
-            printLine("push()")
-            printLine("translate(x, y, z)")
-            printLine("sphere(radius)")
-            printLine("pop()")
+        printMultiline("""
+        function drawSphere(x, y, z, radius) {
+            push()
+            translate(x, y, z)
+            sphere(radius)
+            pop()
         }
+        """)
     }
 
     // MARK: String printing
@@ -609,8 +633,53 @@ open class BaseP5Printer {
     // MARK: - Printing methods
 
     /// Adds a line straight to the buffer.
-    open func printLine(_ line: String) {
+    open func printLine(_ line: some StringProtocol) {
         print("\(indentString())\(line)", to: &buffer)
+    }
+
+    /// Prints a block of code as a multi-lined string, with appropriate indentation
+    /// across line breaks based on relative indentation between lines.
+    open func printMultiline(_ block: String) {
+        func spacesOnLine(_ line: some StringProtocol) -> Int {
+            line.prefix(while: \.isWhitespace).count
+        }
+
+        let currentIndent = self.currentIndent
+        defer { self.currentIndent = currentIndent }
+
+        let lines = block.split(separator: "\n", omittingEmptySubsequences: false)
+        var indentOffsetPerLine: [Int] = []
+
+        var lastSpaces = lines.first.map(spacesOnLine) ?? 0
+        for line in lines {
+            if line.trimmingCharacters(in: .whitespaces).isEmpty {
+                indentOffsetPerLine.append(0)
+                continue
+            }
+
+            let nextSpaces = spacesOnLine(line)
+            defer { lastSpaces = nextSpaces }
+
+            if nextSpaces == lastSpaces {
+                indentOffsetPerLine.append(0)
+            } else if nextSpaces < lastSpaces {
+                indentOffsetPerLine.append(-1)
+            } else if nextSpaces > lastSpaces {
+                indentOffsetPerLine.append(1)
+            }
+        }
+
+        for (i, line) in lines.enumerated() {
+            let line = line.trimmingPrefix(while: \.isWhitespace)
+
+            if indentOffsetPerLine[i] > 0 {
+                indent()
+            } else if indentOffsetPerLine[i] < 0 {
+                deindent()
+            }
+
+            printLine(line)
+        }
     }
 
     /// Adds a series of lines straight to the buffer.
