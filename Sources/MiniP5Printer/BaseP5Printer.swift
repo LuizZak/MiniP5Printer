@@ -670,7 +670,7 @@ open class BaseP5Printer {
         }
 
         for (i, line) in lines.enumerated() {
-            let line = line.trimmingPrefix(while: \.isWhitespace)
+            let line = line.drop(while: \.isWhitespace)
 
             if indentOffsetPerLine[i] > 0 {
                 indent()
